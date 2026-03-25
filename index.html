@@ -6,7 +6,6 @@
 <title>Casa Vacanze Trevi</title>
 
 <style>
-  /* SFONDO LANDING */
   body {
     margin: 0;
     padding: 0;
@@ -15,7 +14,6 @@
     background-size: cover;
   }
 
-  /* LOGO AZIENDA IN ALTO A SINISTRA */
   .logo {
     position: absolute;
     top: 20px;
@@ -24,21 +22,22 @@
     z-index: 10;
   }
 
-  /* TITOLO PRINCIPALE */
   .title {
     text-align: center;
     font-size: 36px;
-    color: white;
+    color: #ff7e5f; /* colore titolo principale */
     font-weight: bold;
     margin-top: 80px;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
   }
 
-  /* FOTO ORIZZONTALE CON LIGHTBOX */
+  /* FOTO ORIZZONTALE */
   .photo-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 15px; /* foto più vicine */
     margin-top: 40px;
+    flex-wrap: wrap;
   }
 
   .photo {
@@ -48,27 +47,25 @@
     overflow: hidden;
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
     cursor: pointer;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .photo img {
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 12px;
   }
 
   .photo .caption {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    padding: 5px;
-    text-align: center;
-    color: white;
+    margin-top: 5px;
     font-size: 14px;
-    background: rgba(0,0,0,0.6);
-    border-radius: 5px;
+    color: white;
     font-weight: bold;
+    text-align: center;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
   }
 
   /* LIGHTBOX */
@@ -88,7 +85,7 @@
     border-radius: 12px;
   }
 
-  /* FORM SEMPLICE, CENTRATO */
+  /* FORM */
   form {
     max-width: 900px;
     margin: 40px auto 60px auto;
@@ -100,7 +97,7 @@
   form h2 {
     margin-bottom: 20px;
     font-weight: 600;
-    color: #ff7e5f;  /* colore coerente con il bottone */
+    color: #ff7e5f; /* colore del titolo principale */
     text-align: center;
     text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
   }
@@ -127,10 +124,9 @@
 
   form label {
     font-weight: 500;
-    color: #ff7e5f;  /* colore coerente con il bottone */
+    color: #ff7e5f; /* colore del titolo principale */
     margin-top: 10px;
     display: block;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
   }
 
   form button {
@@ -165,7 +161,7 @@
 
   @media(max-width: 600px) {
     form { margin: 20px 10px; }
-    .photo-container { flex-direction: column; align-items: center; }
+    .photo-container { flex-direction: column; align-items: center; gap: 10px; }
     .photo { margin-bottom: 20px; }
     .whatsapp-button { width: 50px; height: 50px; }
   }
@@ -173,10 +169,8 @@
 </head>
 <body>
 
-<!-- LOGO AZIENDA -->
 <img src="Logo Double Ex Home.png" class="logo" alt="Logo Società">
 
-<!-- TITOLO PRINCIPALE -->
 <div class="title">Casa Vacanze Trevi - Richiedi Disponibilità</div>
 
 <!-- FOTO ORIZZONTALE -->
@@ -195,7 +189,6 @@
   </div>
 </div>
 
-<!-- FORM -->
 <form id="bookingForm">
   <h2>Richiedi Disponibilità</h2>
   <input type="text" name="nome" placeholder="Nome" required>
@@ -210,39 +203,35 @@
   <button type="submit">Invia Richiesta</button>
 </form>
 
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img src="" alt="Foto grande">
 </div>
 
-<!-- PULSANTE WHATSAPP -->
 <a class="whatsapp-button" href="https://wa.me/3401723563" target="_blank" title="Scrivici su WhatsApp">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/960px-WhatsApp.svg.png" alt="WhatsApp">
 </a>
 
 <script>
-  // FORM SUBMIT
-  const form = document.getElementById("bookingForm");
-  const scriptURL = "https://script.google.com/macros/s/AKfycbxK-_7VFslNEB9-5zsyas5C4aTnurD5yeUbXWhKduJmEbTlh8IR-i3KT7f1Pw8eGEtQTw/exec"; // sostituisci con il tuo URL
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    fetch(scriptURL, { method: "POST", body: new FormData(form) })
-      .then(response => alert("Richiesta inviata con successo!"))
-      .catch(error => alert("Errore nell'invio. Riprova."));
-  });
+const form = document.getElementById("bookingForm");
+const scriptURL = "https://script.google.com/macros/s/AKfycbxK-_7VFslNEB9-5zsyas5C4aTnurD5yeUbXWhKduJmEbTlh8IR-i3KT7f1Pw8eGEtQTw/exec";
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  fetch(scriptURL, { method: "POST", body: new FormData(form) })
+    .then(response => alert("Richiesta inviata con successo!"))
+    .catch(error => alert("Errore nell'invio. Riprova."));
+});
 
-  // LIGHTBOX FOTO
-  function openLightbox(imageSrc) {
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = lightbox.querySelector("img");
-    lightboxImg.src = imageSrc;
-    lightbox.style.display = "flex";
-  }
+function openLightbox(imageSrc) {
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = lightbox.querySelector("img");
+  lightboxImg.src = imageSrc;
+  lightbox.style.display = "flex";
+}
 
-  function closeLightbox() {
-    const lightbox = document.getElementById("lightbox");
-    lightbox.style.display = "none";
-  }
+function closeLightbox() {
+  const lightbox = document.getElementById("lightbox");
+  lightbox.style.display = "none";
+}
 </script>
 
 </body>
