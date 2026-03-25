@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Casa Vacanze</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('Fontana-di-Trevi-Anita-Ekberg.jpg') no-repeat center center/cover;
+      color: #333;
+    }
+
+    header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    header img {
+      height: 60px;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.9);
+      max-width: 900px;
+      margin: 120px auto;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .gallery {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
+
+    .gallery img {
+      height: 200px;
+      border-radius: 8px;
+    }
+
+    .contacts {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .contacts a {
+      display: inline-block;
+      margin: 5px;
+      padding: 10px 15px;
+      background: #007BFF;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      padding: 15px;
+      border-radius: 50%;
+      font-size: 20px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <img src="Logo Double Ex Home.png" alt="Logo Azienda">
+</header>
+
+<div class="container">
+  <h1>Benvenuto nella nostra Casa Vacanze</h1>
+
+  <div class="gallery">
+    <img src="Salone_4.jpg">
+    <img src="Stanza_B_3.jpg">
+    <img src="Terrazzo_1.jpg">
+  </div>
+
+  <div class="contacts">
+    <a href="tel:+393401723563">📞 Chiama</a>
+    <a href="mailto:ditseventi@gmail.com">📧 Email</a>
+  </div>
+
+  <h2>Richiedi disponibilità</h2>
+
+  <form id="bookingForm">
+    <input type="text" name="nome" placeholder="Nome" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="tel" name="telefono" placeholder="Telefono" required>
+    <label>Data arrivo</label>
+    <input type="date" name="arrivo" required>
+    <label>Data partenza</label>
+    <input type="date" name="partenza" required>
+
+    <button type="submit">Invia richiesta</button>
+  </form>
+</div>
+
+<a class="whatsapp" href="https://wa.me/393401723563" target="_blank">💬</a>
+
+<script>
+  const scriptURL = "https://script.google.com/macros/s/TUO_SCRIPT_ID/exec";
+
+  document.getElementById("bookingForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    fetch(scriptURL, { method: "POST", body: formData })
+      .then(() => {
+        alert("Richiesta inviata!");
+        e.target.reset();
+      })
+      .catch(() => alert("Errore invio"));
+  });
+</script>
+
+</body>
+</html>
