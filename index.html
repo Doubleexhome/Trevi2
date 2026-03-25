@@ -37,7 +37,7 @@
   /* FOTO ORIZZONTALE CON LIGHTBOX */
   .photo-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-top: 40px;
   }
 
@@ -48,12 +48,27 @@
     overflow: hidden;
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
     cursor: pointer;
+    position: relative;
   }
 
   .photo img {
     width: 100%;
     height: auto;
     display: block;
+  }
+
+  .photo .caption {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    padding: 5px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 5px;
+    font-weight: bold;
   }
 
   /* LIGHTBOX */
@@ -85,9 +100,9 @@
   form h2 {
     margin-bottom: 20px;
     font-weight: 600;
-    color: white;  /* testo bianco */
+    color: #ff7e5f;  /* colore coerente con il bottone */
     text-align: center;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
   }
 
   form input,
@@ -112,10 +127,10 @@
 
   form label {
     font-weight: 500;
-    color: white;  /* testo bianco */
+    color: #ff7e5f;  /* colore coerente con il bottone */
     margin-top: 10px;
     display: block;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
   }
 
   form button {
@@ -166,9 +181,18 @@
 
 <!-- FOTO ORIZZONTALE -->
 <div class="photo-container">
-  <div class="photo"><img src="Terrazzo_1.jpg" alt="Foto 1"></div>
-  <div class="photo"><img src="Salone_4.jpg" alt="Foto 2"></div>
-  <div class="photo"><img src="Stanza_A_3.jpg" alt="Foto 3"></div>
+  <div class="photo" onclick="openLightbox('Terrazzo_1.jpg')">
+    <img src="Terrazzo_1.jpg" alt="Foto 1">
+    <div class="caption">Clicca per ingrandire</div>
+  </div>
+  <div class="photo" onclick="openLightbox('Salone_4.jpg')">
+    <img src="Salone_4.jpg" alt="Foto 2">
+    <div class="caption">Clicca per ingrandire</div>
+  </div>
+  <div class="photo" onclick="openLightbox('Stanza_A_3.jpg')">
+    <img src="Stanza_A_3.jpg" alt="Foto 3">
+    <div class="caption">Clicca per ingrandire</div>
+  </div>
 </div>
 
 <!-- FORM -->
@@ -187,7 +211,7 @@
 </form>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img src="" alt="Foto grande">
 </div>
 
@@ -208,17 +232,17 @@
   });
 
   // LIGHTBOX FOTO
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = lightbox.querySelector("img");
-  document.querySelectorAll(".photo img").forEach(img => {
-    img.addEventListener("click", () => {
-      lightboxImg.src = img.src;
-      lightbox.style.display = "flex";
-    });
-  });
-  lightbox.addEventListener("click", () => {
+  function openLightbox(imageSrc) {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = lightbox.querySelector("img");
+    lightboxImg.src = imageSrc;
+    lightbox.style.display = "flex";
+  }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById("lightbox");
     lightbox.style.display = "none";
-  });
+  }
 </script>
 
 </body>
