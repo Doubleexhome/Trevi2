@@ -1,153 +1,175 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Casa Vacanze</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trevi Casa Vacanze</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('Fontana-di-Trevi-Anita-Ekberg.jpg') no-repeat center center/cover;
-      color: #333;
-    }
+<style>
+  /* SFONDO LANDING */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('Fontana-di-Trevi-Anita-Ekberg.jpg') no-repeat center center fixed; /* Sostituisci con il tuo sfondo */
+    background-size: cover;
+  }
 
-    header {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-    }
+  /* LOGO IN ALTO A DESTRA */
+  .logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    max-width: 150px; /* regola la dimensione del logo */
+    z-index: 10;
+  }
 
-    header img {
-      height: 60px;
-    }
+  /* SLIDER FOTO */
+  .slider {
+    position: relative;
+    max-width: 100%;
+    height: 400px;
+    overflow: hidden;
+    margin-top: 0px;
+  }
 
-    .container {
-      background: rgba(255,255,255,0.9);
-      max-width: 900px;
-      margin: 120px auto;
-      padding: 20px;
-      border-radius: 10px;
-    }
+  .slider img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
 
-    h1 {
-      text-align: center;
-    }
+  .slider img.active {
+    opacity: 1;
+  }
 
-    .gallery {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      margin-bottom: 20px;
-    }
+  /* FORM */
+  .form-container {
+    max-width: 500px;
+    margin: 30px auto 60px auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  }
 
-    .gallery img {
-      height: 200px;
-      border-radius: 8px;
-    }
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #333;
+  }
 
-    .contacts {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+  .form-container input,
+  .form-container button,
+  .form-container textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
 
-    .contacts a {
-      display: inline-block;
-      margin: 5px;
-      padding: 10px 15px;
-      background: #007BFF;
-      color: white;
-      border-radius: 5px;
-      text-decoration: none;
-    }
+  .form-container input:focus,
+  .form-container textarea:focus {
+    outline: none;
+    border-color: #ff7e5f;
+    box-shadow: 0 0 5px #ff7e5f;
+  }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+  .form-container button {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-    }
+  .form-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
 
-    button {
-      background: #28a745;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+  label {
+    font-weight: 500;
+    color: #555;
+    margin-top: 10px;
+    display: block;
+  }
 
-    .whatsapp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25D366;
-      color: white;
-      padding: 15px;
-      border-radius: 50%;
-      font-size: 20px;
-      text-decoration: none;
+  @media(max-width: 600px) {
+    .slider {
+      height: 250px;
     }
-  </style>
+    .logo {
+      max-width: 120px;
+    }
+  }
+</style>
 </head>
 
 <body>
 
-<header>
-  <img src="Logo Double Ex Home.png" alt="Logo Azienda">
-</header>
+  <!-- LOGO -->
+  <img src="Logo Double Ex Home.png" class="logo" alt="Logo Società">
 
-<div class="container">
-  <h1>Benvenuto nella nostra Casa Vacanze</h1>
-
-  <div class="gallery">
-    <img src="Salone_4.jpg">
-    <img src="Stanza_B_3.jpg">
-    <img src="Terrazzo_1.jpg">
+  <!-- SLIDER FOTO -->
+  <div class="slider" id="slider">
+    <img src="Salone_4.jpg" class="active" alt="Foto Casa 1">
+    <img src="Stanza_A_3.jpg" alt="Foto Casa 2">
+    <img src="Terrazzo_1.jpg" alt="Foto Casa 3">
+    <img src="Stanza_B_3.jpg" alt="Foto Casa 3">
+    <!-- Aggiungi altre foto qui -->
   </div>
 
-  <div class="contacts">
-    <a href="tel:+393401723563">📞 Chiama</a>
-    <a href="mailto:ditseventi@gmail.com">📧 Email</a>
+  <!-- FORM -->
+  <div class="form-container">
+    <h2>Richiedi la disponibilità</h2>
+    <form id="bookingForm">
+      <input type="text" name="nome" placeholder="Nome" required>
+      <input type="text" name="cognome" placeholder="Cognome" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="tel" name="telefono" placeholder="Telefono" required>
+      <label>Data arrivo</label>
+      <input type="date" name="arrivo" required>
+      <label>Data partenza</label>
+      <input type="date" name="partenza" required>
+      <textarea name="note" placeholder="Richieste speciali..." rows="3"></textarea>
+      <button type="submit">Invia Richiesta</button>
+    </form>
   </div>
 
-  <h2>Richiedi disponibilità</h2>
+  <script>
+    // FORM POST
+    const form = document.getElementById("bookingForm");
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxLRX5Cm8OSmGg8R732qhusIKJjxneIxq6c2-tQwpeNETub595HRXuHEqCfhnEdxSv9Jw/exec"; // Inserisci qui il tuo URL
 
-<form id="bookingForm">
-  <input type="text" name="nome" placeholder="Nome" required>
-  <input type="text" name="cognome" placeholder="Cognome" required>
-  <input type="email" name="email" placeholder="Email" required>
-  <input type="tel" name="telefono" placeholder="Telefono" required>
-  <label>Data arrivo</label>
-  <input type="date" name="arrivo" required>
-  <label>Data partenza</label>
-  <input type="date" name="partenza" required>
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: "POST", body: new FormData(form) })
+        .then(response => alert("Richiesta inviata con successo!"))
+        .catch(error => alert("Errore nell'invio. Riprova."));
+    });
 
-  <button type="submit">Invia richiesta</button>
-</form>
-</div>
+    // SLIDER FOTO AUTOMATICO
+    const slides = document.querySelectorAll("#slider img");
+    let current = 0;
 
-<a class="whatsapp" href="https://wa.me/393401723563" target="_blank">💬</a>
+    function showNextSlide() {
+      slides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
+    }
 
-<script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwxD0felVzfYffx_Ggn-hoTkdjKcDngvjIxe_GHDIvqk7PbcBhXhmFSRqv9NfwCjDuLzg/exec";
-
-  document.getElementById("bookingForm").addEventListener("submit", e => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-
-    fetch(scriptURL, { method: "POST", body: formData })
-      .then(() => {
-        alert("Richiesta inviata!");
-        e.target.reset();
-      })
-      .catch(() => alert("Errore invio"));
-  });
-</script>
+    setInterval(showNextSlide, 4000); // cambia immagine ogni 4 secondi
+  </script>
 
 </body>
 </html>
