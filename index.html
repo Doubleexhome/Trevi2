@@ -31,17 +31,38 @@ body::before {
   max-width: 150px;
 }
 
-/* LINGUA */
+/* LINGUA CON BANDIERINE */
 .lang {
   position: absolute;
   top: 20px;
   right: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+.lang img {
+  cursor: pointer;
+  width: 30px;
+  margin-left: 10px;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.lang img:hover {
+  transform: scale(1.2);
 }
 
 .lang span {
-  font-size: 24px;
+  font-size: 18px;
+  color: white;
+  margin-left: 5px;
   cursor: pointer;
-  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+
+.lang span:hover {
+  color: #ff7e5f;
 }
 
 /* TITOLO */
@@ -151,13 +172,19 @@ button {
 
 <body>
 
+<!-- LOGO -->
 <img src="Logo Double Ex Home.png" class="logo">
 
+<!-- BANDIERINE LINGUA -->
 <div class="lang">
-  <span onclick="setLang('it')">🇮🇹</span>
-  <span onclick="setLang('en')">🇬🇧</span>
+  <img src="italian-flag.png" alt="Italiano" onclick="setLang('it')">
+  <span>IT</span>
+
+  <img src="english-flag.png" alt="Inglese" onclick="setLang('en')">
+  <span>ING</span>
 </div>
 
+<!-- TITOLO -->
 <div class="title" id="title">
   Casa Vacanze Trevi - Richiedi Disponibilità
 </div>
@@ -166,7 +193,7 @@ button {
 <div class="photo-container">
   <div class="photo">
     <img src="Terrazzo_1.jpg" onclick="openLightbox(this.src)">
-    <div class="caption" id="cap">Clicca per ingrandire</div>
+    <div class="caption" id="cap1">Clicca per ingrandire</div>
   </div>
 
   <div class="photo">
@@ -212,7 +239,6 @@ button {
 </a>
 
 <script>
-
 /* LIGHTBOX */
 function openLightbox(src) {
   document.getElementById("lightbox").style.display = "flex";
@@ -223,7 +249,6 @@ function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
 
-/* CLICK FUORI */
 document.getElementById("lightbox").addEventListener("click", function(e) {
   if (e.target === this) closeLightbox();
 });
@@ -241,7 +266,7 @@ function setLang(lang) {
     note.placeholder = "Special requests";
     btn.innerText = "Send request";
 
-    cap.innerText = "Click to enlarge";
+    cap1.innerText = "Click to enlarge";
     cap2.innerText = "Click to enlarge";
     cap3.innerText = "Click to enlarge";
   } else {
@@ -250,7 +275,7 @@ function setLang(lang) {
 }
 
 /* GOOGLE SCRIPT */
-const scriptURL = "https://script.google.com/macros/s/AKfycbzA85DnaGunZV69dvIkCL2-2xlG3czAZgOCkNaV0zWiHRW_na1W68lxYt_4kbjANnoufg/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbzjHMFGn07TO4Qk_x2H8kZB6gLoepzWm9JaOPSAfRvbv8qCBSTxtWzK9BzUTx41zGiAFg/exec";
 const formEl = document.getElementById("form");
 
 formEl.addEventListener("submit", e => {
@@ -262,7 +287,6 @@ formEl.addEventListener("submit", e => {
   .then(() => alert("Richiesta inviata!"))
   .catch(() => alert("Errore invio"));
 });
-
 </script>
 
 </body>
