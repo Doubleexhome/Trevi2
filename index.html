@@ -31,17 +31,17 @@ body::before {
   max-width: 150px;
 }
 
-/* SWITCH LINGUA */
-.lang-switch {
+/* LINGUA */
+.lang {
   position: absolute;
   top: 20px;
   right: 20px;
 }
 
-.lang-switch button {
-  margin-left: 5px;
-  padding: 5px 10px;
+.lang span {
+  font-size: 24px;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 /* TITOLO */
@@ -66,12 +66,12 @@ body::before {
   width: 32%;
   max-width: 300px;
   text-align: center;
-  cursor: pointer;
 }
 
 .photo img {
   width: 100%;
   border-radius: 12px;
+  cursor: pointer;
 }
 
 .caption {
@@ -84,23 +84,27 @@ body::before {
 .lightbox {
   display: none;
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.9);
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
 .lightbox img {
   max-width: 90%;
+  max-height: 90%;
 }
 
-.lightbox-close {
+.close {
   position: absolute;
   top: 20px;
   right: 30px;
-  font-size: 40px;
   color: white;
+  font-size: 40px;
   cursor: pointer;
 }
 
@@ -116,28 +120,30 @@ h2, label {
 }
 
 input, textarea {
-  width: 300px;
+  width: 320px;
   padding: 12px;
   margin: 10px;
+  border-radius: 6px;
+  border: none;
 }
 
-button.submit {
-  background: linear-gradient(90deg, #ff7e5f, #feb47b);
-  color: white;
-  border: none;
+button {
   padding: 12px 20px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  border: none;
+  color: white;
   cursor: pointer;
 }
 
 /* WHATSAPP */
-.whatsapp-button {
+.whatsapp {
   position: fixed;
   bottom: 20px;
   right: 20px;
   width: 60px;
 }
 
-.whatsapp-button img {
+.whatsapp img {
   width: 100%;
 }
 </style>
@@ -147,19 +153,20 @@ button.submit {
 
 <img src="Logo Double Ex Home.png" class="logo">
 
-<div class="lang-switch">
-  <button onclick="setLang('it')">IT</button>
-  <button onclick="setLang('en')">EN</button>
+<div class="lang">
+  <span onclick="setLang('it')">🇮🇹</span>
+  <span onclick="setLang('en')">🇬🇧</span>
 </div>
 
 <div class="title" id="title">
   Casa Vacanze Trevi - Richiedi Disponibilità
 </div>
 
+<!-- FOTO -->
 <div class="photo-container">
   <div class="photo">
     <img src="Terrazzo_1.jpg" onclick="openLightbox(this.src)">
-    <div class="caption" id="cap1">Clicca per ingrandire</div>
+    <div class="caption" id="cap">Clicca per ingrandire</div>
   </div>
 
   <div class="photo">
@@ -173,7 +180,8 @@ button.submit {
   </div>
 </div>
 
-<form id="bookingForm">
+<!-- FORM -->
+<form id="form">
   <h2 id="formTitle">Richiedi Disponibilità</h2>
 
   <input type="text" name="nome" id="nome" placeholder="Nome" required><br>
@@ -181,29 +189,31 @@ button.submit {
   <input type="email" name="email" id="email" placeholder="Email" required><br>
   <input type="tel" name="telefono" id="telefono" placeholder="Telefono" required><br>
 
-  <label id="arrivoLabel">Data arrivo</label><br>
+  <label id="arrivo">Data arrivo</label><br>
   <input type="date" name="arrivo"><br>
 
-  <label id="partenzaLabel">Data partenza</label><br>
+  <label id="partenza">Data partenza</label><br>
   <input type="date" name="partenza"><br>
 
   <textarea name="note" id="note" placeholder="Richieste speciali"></textarea><br>
 
-  <button type="submit" class="submit" id="submitBtn">Invia richiesta</button>
+  <button type="submit" id="btn">Invia richiesta</button>
 </form>
 
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-  <span class="lightbox-close" onclick="closeLightbox()">×</span>
+  <span class="close" onclick="closeLightbox()">×</span>
   <img id="lightbox-img">
 </div>
 
-<a class="whatsapp-button" href="https://wa.me/3401723563" target="_blank">
+<!-- WHATSAPP -->
+<a class="whatsapp" href="https://wa.me/3891282883" target="_blank">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/960px-WhatsApp.svg.png">
 </a>
 
 <script>
 
-// LIGHTBOX
+/* LIGHTBOX */
 function openLightbox(src) {
   document.getElementById("lightbox").style.display = "flex";
   document.getElementById("lightbox-img").src = src;
@@ -213,41 +223,43 @@ function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
 
-// TRADUZIONI
+/* CLICK FUORI */
+document.getElementById("lightbox").addEventListener("click", function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+/* LINGUA */
 function setLang(lang) {
   if(lang === "en") {
-    document.getElementById("title").innerText = "Trevi Holiday Home - Check Availability";
-    document.getElementById("formTitle").innerText = "Check Availability";
-    document.getElementById("nome").placeholder = "First Name";
-    document.getElementById("cognome").placeholder = "Last Name";
-    document.getElementById("email").placeholder = "Email";
-    document.getElementById("telefono").placeholder = "Phone";
-    document.getElementById("arrivoLabel").innerText = "Arrival date";
-    document.getElementById("partenzaLabel").innerText = "Departure date";
-    document.getElementById("note").placeholder = "Special requests";
-    document.getElementById("submitBtn").innerText = "Send request";
+    title.innerText = "Trevi Holiday Home - Check Availability";
+    formTitle.innerText = "Check Availability";
+    nome.placeholder = "First Name";
+    cognome.placeholder = "Last Name";
+    telefono.placeholder = "Phone";
+    arrivo.innerText = "Arrival date";
+    partenza.innerText = "Departure date";
+    note.placeholder = "Special requests";
+    btn.innerText = "Send request";
 
-    document.getElementById("cap1").innerText = "Click to enlarge";
-    document.getElementById("cap2").innerText = "Click to enlarge";
-    document.getElementById("cap3").innerText = "Click to enlarge";
-  }
-
-  if(lang === "it") {
-    location.reload(); // torna italiano
+    cap.innerText = "Click to enlarge";
+    cap2.innerText = "Click to enlarge";
+    cap3.innerText = "Click to enlarge";
+  } else {
+    location.reload();
   }
 }
 
-// INTEGRAZIONE GOOGLE SCRIPT
-const form = document.getElementById("bookingForm");
-const scriptURL = "https://script.google.com/macros/s/AKfycbzA85DnaGunZV69dvIkCL2-2xlG3czAZgOCkNaV0zWiHRW_na1W68lxYt_4kbjANnoufg/exec"; // Inserisci il tuo ID Script qui
+/* GOOGLE SCRIPT */
+const scriptURL = "https://script.google.com/macros/s/AKfycbzA85DnaGunZV69dvIkCL2-2xlG3czAZgOCkNaV0zWiHRW_na1W68lxYt_4kbjANnoufg/exec";
+const formEl = document.getElementById("form");
 
-form.addEventListener("submit", e => {
+formEl.addEventListener("submit", e => {
   e.preventDefault();
   fetch(scriptURL, {
     method: "POST",
-    body: new FormData(form)
+    body: new FormData(formEl)
   })
-  .then(() => alert("Richiesta inviata con successo!"))
+  .then(() => alert("Richiesta inviata!"))
   .catch(() => alert("Errore invio"));
 });
 
