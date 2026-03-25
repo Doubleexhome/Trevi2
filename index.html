@@ -14,6 +14,18 @@
     background-size: cover;
   }
 
+  /* EFFETTO BLUR SU SFONDO */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: inherit; /* usa lo stesso sfondo */
+    filter: blur(8px); /* intensità del blur */
+    z-index: -1;
+  }
+</style>
+
   .logo {
     position: absolute;
     top: 20px;
