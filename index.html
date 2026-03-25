@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casa Vacanze</title>
+<title>Casa Vacanze Trevi</title>
 
 <style>
   /* SFONDO LANDING */
@@ -24,14 +24,29 @@
     z-index: 10;
   }
 
-  /* FOTO SINGOLE */
+  /* TITOLO PRINCIPALE */
+  .title {
+    text-align: center;
+    font-size: 36px;
+    color: white;
+    font-weight: bold;
+    margin-top: 80px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+  }
+
+  /* FOTO SINGOLE IN ORIZZONTALE */
+  .photo-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+  }
+
   .photo {
-    width: 90%;
-    max-width: 900px;
-    margin: 40px auto 0 auto;
+    width: 30%;  /* ridotto il formato delle immagini */
+    max-width: 280px;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   }
 
   .photo img {
@@ -40,47 +55,43 @@
     display: block;
   }
 
-  /* CONTENITORE FORM */
-  .form-container {
-    max-width: 900px;         /* ora uguale alle foto */
+  /* FORM SEMPLICE, CENTRATO */
+  form {
+    max-width: 900px;  /* allineato alle foto */
     margin: 40px auto 60px auto;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    padding: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+  }
 
-  .form-container h2 {
+  form h2 {
     margin-bottom: 20px;
     font-weight: 600;
     color: #333;
     text-align: center;
   }
 
-  .form-container input,
-.form-container textarea,
-.form-container button {
-    width: 100%;        /* puoi aumentare a 95% se vuoi campi più larghi */
-    max-width: 500px;  /* aumenta se vuoi che riempiano più spazio */
+  form input,
+  form textarea,
+  form button {
+    width: 90%;
+    max-width: 500px;
     margin: 10px 0;
-    padding: 12px 15px;
+    padding: 15px 20px;
     font-size: 16px;
     border-radius: 8px;
     border: 1px solid #ccc;
     display: block;
   }
 
-  .form-container input:focus,
-  .form-container textarea:focus {
+  form input:focus,
+  form textarea:focus {
     outline: none;
     border-color: #ff7e5f;
     box-shadow: 0 0 5px #ff7e5f;
   }
 
-  .form-container button {
+  form button {
     background: linear-gradient(90deg, #ff7e5f, #feb47b);
     color: white;
     font-weight: bold;
@@ -88,9 +99,10 @@
     cursor: pointer;
     margin-top: 15px;
     transition: all 0.3s ease;
+    text-align: center;
   }
 
-  .form-container button:hover {
+  form button:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   }
@@ -117,7 +129,7 @@
     align-items: center;
     font-size: 30px;
     text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
   }
 
@@ -127,8 +139,8 @@
   }
 
   @media(max-width: 600px) {
-    .form-container { margin: 20px 10px; }
-    .photo { margin: 20px 10px 0 10px; }
+    form { margin: 20px 10px; }
+    .photo-container { flex-direction: column; align-items: center; }
     .whatsapp-button { width: 50px; height: 50px; font-size: 26px; }
   }
 </style>
@@ -136,29 +148,34 @@
 <body>
 
 <!-- LOGO -->
-<img src="Logo Double Ex Home.png" class="logo" alt="Logo Società">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/960px-WhatsApp.svg.png" class="logo" alt="Logo WhatsApp">
 
-<!-- FOTO SINGOLE -->
-<div class="photo"><img src="Salone_4.jpg" alt="Foto 1"></div>
-<div class="photo"><img src="Stanza_A_3.jpg" alt="Foto 2"></div>
-<div class="photo"><img src="Terrazzo_1.jpg" alt="Foto 3"></div>
+<!-- TITOLO PRINCIPALE -->
+<div class="title">
+  Casa Vacanze Trevi - Richiedi Disponibilità
+</div>
+
+<!-- FOTO SINGOLE IN ORIZZONTALE -->
+<div class="photo-container">
+  <div class="photo"><img src="Salone_4.jpg" alt="Foto 1"></div>
+  <div class="photo"><img src="Terrazzo_1.jpg" alt="Foto 2"></div>
+  <div class="photo"><img src="Stanza_A_3.jpg" alt="Foto 3"></div>
+</div>
 
 <!-- FORM -->
-<div class="form-container">
+<form id="bookingForm">
   <h2>Richiedi Disponibilità</h2>
-  <form id="bookingForm">
-    <input type="text" name="nome" placeholder="Nome" required>
-    <input type="text" name="cognome" placeholder="Cognome" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="tel" name="telefono" placeholder="Telefono" required>
-    <label>Data arrivo</label>
-    <input type="date" name="arrivo" required>
-    <label>Data partenza</label>
-    <input type="date" name="partenza" required>
-    <textarea name="note" placeholder="Richieste speciali..." rows="3"></textarea>
-    <button type="submit">Invia Richiesta</button>
-  </form>
-</div>
+  <input type="text" name="nome" placeholder="Nome" required>
+  <input type="text" name="cognome" placeholder="Cognome" required>
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="tel" name="telefono" placeholder="Telefono" required>
+  <label>Data arrivo</label>
+  <input type="date" name="arrivo" required>
+  <label>Data partenza</label>
+  <input type="date" name="partenza" required>
+  <textarea name="note" placeholder="Richieste speciali..." rows="3"></textarea>
+  <button type="submit">Invia Richiesta</button>
+</form>
 
 <!-- PULSANTE WHATSAPP -->
 <a class="whatsapp-button" href="https://wa.me/3401723563" target="_blank" title="Scrivici su WhatsApp">📱</a>
