@@ -28,9 +28,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; font-size: 16px; }
-
 body {
   font-family: var(--font-body);
   background: var(--dark);
@@ -39,9 +37,6 @@ body {
   cursor: default;
 }
 
-/* ═══════════════════════════════════════
-   SCROLLBAR
-═══════════════════════════════════════ */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--dark); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
@@ -68,43 +63,34 @@ header.scrolled {
   border-bottom: 1px solid rgba(201,168,76,0.15);
 }
 
+/* ─── LOGO ─────────────────────────────────────────────────
+   mix-blend-mode: screen  →  rende il bianco del logo
+   trasparente su qualsiasi sfondo scuro, senza alterare
+   i colori del marchio. Se il tuo logo è già su sfondo
+   trasparente (.png con alpha), puoi rimuovere questa riga.
+──────────────────────────────────────────────────────────── */
 .logo-area {
   display: flex;
   align-items: center;
-  gap: 14px;
   text-decoration: none;
   flex-shrink: 0;
 }
 
 .logo-img {
-  height: 44px;
+  height: 52px;
   width: auto;
   object-fit: contain;
-  filter: brightness(1.1);
+  mix-blend-mode: screen;
+  filter: brightness(1.15) contrast(1.05);
+  transition: filter .3s;
 }
 
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
+.logo-area:hover .logo-img {
+  filter: brightness(1.35) contrast(1.1);
 }
 
-.logo-text span:first-child {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 300;
-  letter-spacing: .25em;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-
-.logo-text span:last-child {
-  font-size: .58rem;
-  letter-spacing: .2em;
-  color: var(--stone-light);
-  text-transform: uppercase;
-  margin-top: 3px;
-}
+/* ─── Rimosso: .logo-text (le scritte "DoubleexHome" e
+       "Residenze di Lusso" che erano accanto al logo) ─── */
 
 .header-center {
   flex: 1;
@@ -122,7 +108,6 @@ header.scrolled {
   text-decoration: none;
   padding: 9px 28px;
   border: 1px solid rgba(201,168,76,0.4);
-  border-radius: 0;
   position: relative;
   overflow: hidden;
   transition: color .3s, border-color .3s;
@@ -141,11 +126,7 @@ header.scrolled {
 .nav-gallery-btn:hover::before { transform: translateX(0); }
 .nav-gallery-btn span { position: relative; z-index: 1; }
 
-.lang-switch {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
+.lang-switch { display: flex; gap: 4px; align-items: center; }
 
 .lang-btn {
   background: none;
@@ -164,7 +145,6 @@ header.scrolled {
 
 .lang-btn.active { color: var(--gold); }
 .lang-btn:hover { color: var(--gold-light); }
-
 .lang-sep { color: rgba(201,168,76,0.3); font-size: .6rem; }
 
 /* ═══════════════════════════════════════
@@ -180,28 +160,44 @@ header.scrolled {
   overflow: hidden;
 }
 
+/* ════════════════════════════════════════════════════════════
+   📸  FOTO HERO — come inserire lo sfondo principale
+   ════════════════════════════════════════════════════════════
+   Questa regola CSS gestisce lo sfondo visibile appena
+   si apre il sito (l'immagine a tutto schermo).
+
+   PER AGGIUNGERE LA TUA FOTO:
+   1. Copia il file immagine nella stessa cartella di index.html
+   2. Sostituisci il blocco .hero-bg qui sotto con questo:
+
+   .hero-bg {
+     position: absolute;
+     inset: 0;
+     background-image:
+       linear-gradient(160deg,
+         rgba(13,11,9,0.55) 0%,
+         rgba(13,11,9,0.2)  50%,
+         rgba(13,11,9,0.75) 100%),
+       url("QUI-IL-NOME-DEL-TUO-FILE.jpg");
+     background-size: cover;
+     background-position: center;
+     transform: scale(1.06);
+     animation: heroZoom 18s ease-in-out infinite alternate;
+   }
+
+   Esempio reale:  url("esterno-appartamento.jpg")
+   ════════════════════════════════════════════════════════════ */
 .hero-bg {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(160deg, rgba(13,11,9,0.55) 0%, rgba(13,11,9,0.2) 50%, rgba(13,11,9,0.75) 100%),
-    /* Placeholder — sostituisci con url("foto1.jpg") center/cover no-repeat */
     radial-gradient(ellipse at 30% 60%, #3a2e1a 0%, #1a1210 40%, #0a0806 100%);
   background-size: cover;
   background-position: center;
   transform: scale(1.06);
   animation: heroZoom 18s ease-in-out infinite alternate;
 }
-
-/* SE hai foto reali, decommentare e mettere il percorso:
-.hero-bg {
-  background-image:
-    linear-gradient(160deg, rgba(13,11,9,0.55) 0%, rgba(13,11,9,0.2) 50%, rgba(13,11,9,0.75) 100%),
-    url("foto1.jpg");
-  background-size: cover;
-  background-position: center;
-}
-*/
 
 @keyframes heroZoom {
   from { transform: scale(1.06); }
@@ -243,17 +239,14 @@ header.scrolled {
   gap: 16px;
 }
 
-.hero-eyebrow::before,
-.hero-eyebrow::after {
+.hero-eyebrow::before, .hero-eyebrow::after {
   content: '';
   width: 40px;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold));
 }
 
-.hero-eyebrow::after {
-  background: linear-gradient(90deg, var(--gold), transparent);
-}
+.hero-eyebrow::after { background: linear-gradient(90deg, var(--gold), transparent); }
 
 .hero-title {
   font-family: var(--font-display);
@@ -265,11 +258,7 @@ header.scrolled {
   letter-spacing: -.01em;
 }
 
-.hero-title em {
-  font-style: italic;
-  color: var(--gold-light);
-  font-weight: 300;
-}
+.hero-title em { font-style: italic; color: var(--gold-light); font-weight: 300; }
 
 .hero-subtitle {
   font-family: var(--font-display);
@@ -323,12 +312,7 @@ header.scrolled {
   animation: heroFadeUp 1.8s var(--ease-silk) .4s both;
 }
 
-.hero-scroll span {
-  font-size: .58rem;
-  letter-spacing: .25em;
-  text-transform: uppercase;
-  color: var(--stone);
-}
+.hero-scroll span { font-size: .58rem; letter-spacing: .25em; text-transform: uppercase; color: var(--stone); }
 
 .scroll-line {
   width: 1px;
@@ -343,7 +327,7 @@ header.scrolled {
 }
 
 /* ═══════════════════════════════════════
-   PHOTO SECTION (2–3 foto)
+   PHOTO SECTION
 ═══════════════════════════════════════ */
 .photos-section {
   padding: 100px 60px;
@@ -359,10 +343,7 @@ header.scrolled {
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 70px;
-}
+.section-header { text-align: center; margin-bottom: 70px; }
 
 .section-eyebrow {
   font-family: var(--font-body);
@@ -382,10 +363,7 @@ header.scrolled {
   line-height: 1.15;
 }
 
-.section-title em {
-  font-style: italic;
-  color: var(--gold-light);
-}
+.section-title em { font-style: italic; color: var(--gold-light); }
 
 .photos-grid {
   display: grid;
@@ -396,9 +374,6 @@ header.scrolled {
   margin: 0 auto;
 }
 
-/* Con 2 foto: griglia a 2 colonne, 1 riga */
-/* Con 3 foto: prima grande, due sotto */
-
 .photo-card {
   position: relative;
   overflow: hidden;
@@ -406,9 +381,7 @@ header.scrolled {
   background: var(--charcoal);
 }
 
-.photo-card:first-child {
-  grid-row: span 2;
-}
+.photo-card:first-child { grid-row: span 2; }
 
 .photo-card img {
   width: 100%;
@@ -460,27 +433,18 @@ header.scrolled {
   gap: 12px;
   border: 1px dashed rgba(201,168,76,0.25);
   color: var(--stone);
-  cursor: pointer;
+  cursor: default;
   transition: border-color .3s, background .3s;
 }
 
 .photo-card:first-child .photo-placeholder { min-height: 560px; }
 
-.photo-placeholder:hover {
-  border-color: rgba(201,168,76,0.6);
-  background: rgba(201,168,76,0.04);
-}
-
 .photo-placeholder i { font-size: 2rem; color: rgba(201,168,76,0.35); }
 
-.photo-placeholder span {
-  font-size: .65rem;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-}
+.photo-placeholder span { font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; }
 
 /* ═══════════════════════════════════════
-   FEATURES / AMENITIES
+   FEATURES
 ═══════════════════════════════════════ */
 .features-section {
   padding: 100px 60px;
@@ -546,19 +510,9 @@ header.scrolled {
   flex-shrink: 0;
 }
 
-.feature-title {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--ivory);
-}
+.feature-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; color: var(--ivory); }
 
-.feature-desc {
-  font-size: .72rem;
-  line-height: 1.7;
-  color: var(--stone-light);
-  letter-spacing: .03em;
-}
+.feature-desc { font-size: .72rem; line-height: 1.7; color: var(--stone-light); letter-spacing: .03em; }
 
 /* ═══════════════════════════════════════
    CONTACT FORM
@@ -592,49 +546,18 @@ header.scrolled {
 
 .contact-info { padding-top: 10px; }
 
-.contact-address {
-  margin-top: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
+.contact-address { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; }
 
-.contact-address-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-}
+.contact-address-item { display: flex; align-items: flex-start; gap: 14px; }
 
-.contact-address-item i {
-  color: var(--gold);
-  font-size: .8rem;
-  margin-top: 3px;
-  flex-shrink: 0;
-  width: 16px;
-  text-align: center;
-}
+.contact-address-item i { color: var(--gold); font-size: .8rem; margin-top: 3px; flex-shrink: 0; width: 16px; text-align: center; }
 
-.contact-address-item p {
-  font-size: .78rem;
-  line-height: 1.7;
-  color: var(--stone-light);
-  letter-spacing: .03em;
-}
+.contact-address-item p { font-size: .78rem; line-height: 1.7; color: var(--stone-light); letter-spacing: .03em; }
 
-.contact-address-item a {
-  color: var(--stone-light);
-  text-decoration: none;
-  transition: color .25s;
-}
-
+.contact-address-item a { color: var(--stone-light); text-decoration: none; transition: color .25s; }
 .contact-address-item a:hover { color: var(--gold-light); }
 
-.contact-divider {
-  width: 40px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--gold), transparent);
-  margin: 28px 0;
-}
+.contact-divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin: 28px 0; }
 
 .contact-quote {
   font-family: var(--font-display);
@@ -657,32 +580,13 @@ header.scrolled {
   font-family: var(--font-display);
 }
 
-/* FORM */
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+.form-group { display: flex; flex-direction: column; gap: 8px; }
 
-.form-label {
-  font-size: .6rem;
-  font-weight: 500;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
+.form-label { font-size: .6rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
 
 .form-input,
 .form-textarea {
@@ -701,24 +605,14 @@ header.scrolled {
 }
 
 .form-input::placeholder,
-.form-textarea::placeholder {
-  color: var(--stone);
-  font-size: .78rem;
-}
+.form-textarea::placeholder { color: var(--stone); font-size: .78rem; }
 
 .form-input:focus,
-.form-textarea:focus {
-  border-color: var(--gold);
-  background: rgba(201,168,76,0.06);
-}
+.form-textarea:focus { border-color: var(--gold); background: rgba(201,168,76,0.06); }
 
 .form-input[type="date"] { color-scheme: dark; }
 
-.form-textarea {
-  resize: vertical;
-  min-height: 100px;
-  line-height: 1.6;
-}
+.form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
 
 .form-submit {
   background: transparent;
@@ -749,9 +643,7 @@ header.scrolled {
 
 .form-submit:hover { color: var(--dark); }
 .form-submit:hover::before { transform: translateX(0); }
-
 .form-submit span { position: relative; z-index: 1; }
-
 .form-submit.loading { pointer-events: none; opacity: .6; }
 
 .form-success {
@@ -770,7 +662,7 @@ header.scrolled {
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ═══════════════════════════════════════
-   FLOATING ACTION BUTTONS (right)
+   FAB BUTTONS
 ═══════════════════════════════════════ */
 .fab-cluster {
   position: fixed;
@@ -816,36 +708,12 @@ header.scrolled {
 .fab:hover::after { opacity: 1; }
 .fab:hover { transform: scale(1.1); }
 
-.fab-whatsapp {
-  background: #25D366;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.35);
-  color: #fff;
-}
-
-.fab-whatsapp:hover {
-  box-shadow: 0 8px 30px rgba(37,211,102,0.55);
-}
-
-.fab-mail {
-  background: var(--gold);
-  box-shadow: 0 4px 20px rgba(201,168,76,0.35);
-  color: var(--dark);
-}
-
-.fab-mail:hover {
-  box-shadow: 0 8px 30px rgba(201,168,76,0.55);
-}
-
-.fab-phone {
-  background: var(--charcoal);
-  border: 1px solid rgba(201,168,76,0.35);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-  color: var(--gold);
-}
-
-.fab-phone:hover {
-  box-shadow: 0 8px 30px rgba(201,168,76,0.25);
-}
+.fab-whatsapp { background: #25D366; box-shadow: 0 4px 20px rgba(37,211,102,0.35); color: #fff; }
+.fab-whatsapp:hover { box-shadow: 0 8px 30px rgba(37,211,102,0.55); }
+.fab-mail { background: var(--gold); box-shadow: 0 4px 20px rgba(201,168,76,0.35); color: var(--dark); }
+.fab-mail:hover { box-shadow: 0 8px 30px rgba(201,168,76,0.55); }
+.fab-phone { background: var(--charcoal); border: 1px solid rgba(201,168,76,0.35); box-shadow: 0 4px 20px rgba(0,0,0,0.35); color: var(--gold); }
+.fab-phone:hover { box-shadow: 0 8px 30px rgba(201,168,76,0.25); }
 
 /* ═══════════════════════════════════════
    LIGHTBOX
@@ -861,17 +729,9 @@ header.scrolled {
   padding: 20px;
 }
 
-#lightbox.open {
-  display: flex;
-  animation: fadeIn .3s ease both;
-}
+#lightbox.open { display: flex; animation: fadeIn .3s ease both; }
 
-.lightbox-img {
-  max-width: 90vw;
-  max-height: 88vh;
-  object-fit: contain;
-  border: 1px solid rgba(201,168,76,0.2);
-}
+.lightbox-img { max-width: 90vw; max-height: 88vh; object-fit: contain; border: 1px solid rgba(201,168,76,0.2); }
 
 .lightbox-close {
   position: absolute;
@@ -910,12 +770,7 @@ header.scrolled {
   border-bottom: 1px solid rgba(201,168,76,0.15);
 }
 
-.gallery-page-title {
-  font-family: var(--font-display);
-  font-size: 2.4rem;
-  font-weight: 300;
-  color: var(--ivory);
-}
+.gallery-page-title { font-family: var(--font-display); font-size: 2.4rem; font-weight: 300; color: var(--ivory); }
 
 .gallery-close-btn {
   font-family: var(--font-body);
@@ -936,55 +791,28 @@ header.scrolled {
 
 .gallery-close-btn:hover { color: var(--gold); border-color: var(--gold); }
 
-.gallery-masonry {
-  columns: 3;
-  column-gap: 16px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+.gallery-masonry { columns: 3; column-gap: 16px; max-width: 1200px; margin: 0 auto; }
 
-.gallery-item {
-  break-inside: avoid;
-  margin-bottom: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-}
+.gallery-item { break-inside: avoid; margin-bottom: 16px; overflow: hidden; cursor: pointer; position: relative; }
 
-.gallery-item img {
-  width: 100%;
-  display: block;
-  transition: transform .6s var(--ease-silk);
-  filter: brightness(.9);
-}
+.gallery-item img { width: 100%; display: block; transition: transform .6s var(--ease-silk); filter: brightness(.9); }
 
-.gallery-item:hover img {
-  transform: scale(1.04);
-  filter: brightness(1.05);
-}
+.gallery-item:hover img { transform: scale(1.04); filter: brightness(1.05); }
 
 .gallery-upload-area {
   border: 1px dashed rgba(201,168,76,0.3);
   padding: 60px 40px;
   text-align: center;
   color: var(--stone);
-  cursor: pointer;
-  transition: border-color .3s, background .3s;
   max-width: 600px;
   margin: 40px auto 0;
 }
 
-.gallery-upload-area:hover {
-  border-color: rgba(201,168,76,0.6);
-  background: rgba(201,168,76,0.04);
-}
-
 .gallery-upload-area i { font-size: 2.5rem; color: rgba(201,168,76,0.3); margin-bottom: 14px; display: block; }
-
 .gallery-upload-area p { font-size: .75rem; letter-spacing: .1em; line-height: 1.8; }
 
 /* ═══════════════════════════════════════
-   MODAL ELEGANTE (policy etc)
+   MODAL
 ═══════════════════════════════════════ */
 #modal-overlay {
   display: none;
@@ -999,10 +827,7 @@ header.scrolled {
   padding: 20px;
 }
 
-#modal-overlay.open {
-  display: flex;
-  animation: fadeIn .35s ease both;
-}
+#modal-overlay.open { display: flex; animation: fadeIn .35s ease both; }
 
 .modal-box {
   background: #12100D;
@@ -1015,96 +840,31 @@ header.scrolled {
   position: relative;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes slideUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 
 .modal-box::-webkit-scrollbar { width: 3px; }
 .modal-box::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); }
 
-.modal-head {
-  padding: 32px 36px 24px;
-  border-bottom: 1px solid rgba(201,168,76,0.15);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+.modal-head { padding: 32px 36px 24px; border-bottom: 1px solid rgba(201,168,76,0.15); display: flex; align-items: center; gap: 16px; }
 
-.modal-head-icon {
-  width: 38px; height: 38px;
-  border: 1px solid rgba(201,168,76,0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .9rem;
-  color: var(--gold);
-  flex-shrink: 0;
-}
+.modal-head-icon { width: 38px; height: 38px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: .9rem; color: var(--gold); flex-shrink: 0; }
 
-.modal-head h2 {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: var(--ivory);
-  flex: 1;
-}
+.modal-head h2 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 400; color: var(--ivory); flex: 1; }
 
-.modal-x {
-  background: none; border: none;
-  color: var(--stone);
-  font-size: 1.4rem;
-  cursor: pointer;
-  padding: 4px 8px;
-  transition: color .2s;
-  line-height: 1;
-}
-
+.modal-x { background: none; border: none; color: var(--stone); font-size: 1.4rem; cursor: pointer; padding: 4px 8px; transition: color .2s; line-height: 1; }
 .modal-x:hover { color: var(--gold-light); }
 
-.modal-body {
-  padding: 28px 36px;
-}
+.modal-body { padding: 28px 36px; }
 
-.modal-body h4 {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--gold-light);
-  margin: 22px 0 8px;
-}
+.modal-body h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 400; color: var(--gold-light); margin: 22px 0 8px; }
 
-.modal-body p {
-  font-size: .78rem;
-  line-height: 1.85;
-  color: var(--stone-light);
-  margin-bottom: 10px;
-}
+.modal-body p { font-size: .78rem; line-height: 1.85; color: var(--stone-light); margin-bottom: 10px; }
 
-.modal-body a {
-  color: var(--gold);
-  text-decoration: none;
-}
+.modal-body a { color: var(--gold); text-decoration: none; }
 
-.modal-foot {
-  padding: 20px 36px 28px;
-  border-top: 1px solid rgba(201,168,76,0.1);
-  display: flex;
-  justify-content: flex-end;
-}
+.modal-foot { padding: 20px 36px 28px; border-top: 1px solid rgba(201,168,76,0.1); display: flex; justify-content: flex-end; }
 
-.modal-close-btn {
-  font-family: var(--font-body);
-  font-size: .65rem;
-  font-weight: 500;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--dark);
-  background: var(--gold);
-  border: none;
-  padding: 12px 32px;
-  cursor: pointer;
-  transition: background .25s;
-}
-
+.modal-close-btn { font-family: var(--font-body); font-size: .65rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--dark); background: var(--gold); border: none; padding: 12px 32px; cursor: pointer; transition: background .25s; }
 .modal-close-btn:hover { background: var(--gold-light); }
 
 /* ═══════════════════════════════════════
@@ -1126,77 +886,29 @@ header.scrolled {
   box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 
-@keyframes slideUpLeft {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes slideUpLeft { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 .cookie-top { display: flex; align-items: flex-start; gap: 14px; }
 
-.cookie-icon-box {
-  width: 36px; height: 36px;
-  border: 1px solid rgba(201,168,76,0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .85rem;
-  color: var(--gold);
-  flex-shrink: 0;
-}
+.cookie-icon-box { width: 36px; height: 36px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: .85rem; color: var(--gold); flex-shrink: 0; }
 
 .cookie-text-block { display: flex; flex-direction: column; gap: 6px; }
 
-.cookie-label {
-  font-size: .6rem;
-  font-weight: 600;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
+.cookie-label { font-size: .6rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
 
-.cookie-desc {
-  font-size: .73rem;
-  line-height: 1.65;
-  color: var(--stone-light);
-}
+.cookie-desc { font-size: .73rem; line-height: 1.65; color: var(--stone-light); }
 
-.cookie-desc a {
-  color: rgba(201,168,76,0.8);
-  text-decoration: none;
-  cursor: pointer;
-}
-
+.cookie-desc a { color: rgba(201,168,76,0.8); text-decoration: none; cursor: pointer; }
 .cookie-desc a:hover { color: var(--gold-light); }
 
-.cookie-actions {
-  display: flex;
-  gap: 10px;
-}
+.cookie-actions { display: flex; gap: 10px; }
 
-.cookie-btn {
-  flex: 1;
-  padding: 11px 0;
-  border: none;
-  font-family: var(--font-body);
-  font-size: .65rem;
-  font-weight: 600;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all .25s;
-}
+.cookie-btn { flex: 1; padding: 11px 0; border: none; font-family: var(--font-body); font-size: .65rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; cursor: pointer; transition: all .25s; }
 
-.cookie-accept {
-  background: var(--gold);
-  color: var(--dark);
-}
-
+.cookie-accept { background: var(--gold); color: var(--dark); }
 .cookie-accept:hover { background: var(--gold-light); }
 
-.cookie-reject {
-  background: transparent;
-  color: var(--stone-light);
-  border: 1px solid rgba(255,255,255,0.12) !important;
-}
-
+.cookie-reject { background: transparent; color: var(--stone-light); border: 1px solid rgba(255,255,255,0.12) !important; }
 .cookie-reject:hover { border-color: rgba(201,168,76,0.35) !important; color: var(--ivory); }
 
 /* ═══════════════════════════════════════
@@ -1213,33 +925,14 @@ footer {
   gap: 20px;
 }
 
-.footer-left {
-  font-family: var(--font-display);
-  font-size: .9rem;
-  font-style: italic;
-  color: var(--stone);
-}
+.footer-left { font-family: var(--font-display); font-size: .9rem; font-style: italic; color: var(--stone); }
 
 .footer-center { display: flex; gap: 28px; }
 
-.footer-link {
-  font-size: .6rem;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: var(--stone);
-  text-decoration: none;
-  cursor: pointer;
-  transition: color .25s;
-}
-
+.footer-link { font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; color: var(--stone); text-decoration: none; cursor: pointer; transition: color .25s; }
 .footer-link:hover { color: var(--gold); }
 
-.footer-right {
-  font-size: .65rem;
-  letter-spacing: .1em;
-  color: var(--stone);
-  text-align: right;
-}
+.footer-right { font-size: .65rem; letter-spacing: .1em; color: var(--stone); text-align: right; }
 
 /* ═══════════════════════════════════════
    RESPONSIVE
@@ -1247,32 +940,19 @@ footer {
 @media(max-width: 900px) {
   header { padding: 16px 24px; }
   header.scrolled { padding: 12px 24px; }
-
-  .photos-section,
-  .features-section,
-  .contact-section { padding: 70px 24px; }
-
-  .photos-grid {
-    grid-template-columns: 1fr;
-  }
+  .photos-section, .features-section, .contact-section { padding: 70px 24px; }
+  .photos-grid { grid-template-columns: 1fr; }
   .photo-card:first-child { grid-row: auto; }
-  .photo-card:first-child img,
-  .photo-card:first-child .photo-placeholder { min-height: 280px; }
-
+  .photo-card:first-child img, .photo-card:first-child .photo-placeholder { min-height: 280px; }
   .contact-layout { grid-template-columns: 1fr; gap: 50px; }
-
   .form-row { grid-template-columns: 1fr; }
-
   .gallery-masonry { columns: 2; }
-
   footer { flex-direction: column; text-align: center; padding: 32px 24px; }
   .footer-right { text-align: center; }
-
   .fab-cluster { right: 16px; bottom: 24px; }
 }
 
 @media(max-width: 600px) {
-  .logo-text { display: none; }
   .hero-eyebrow { display: none; }
   .gallery-masonry { columns: 1; }
   #cookie-bar { left: 12px; right: 12px; max-width: none; bottom: 16px; }
@@ -1287,10 +967,7 @@ footer {
   transition: opacity .8s var(--ease-silk), transform .8s var(--ease-silk);
 }
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
 .reveal-delay-1 { transition-delay: .1s; }
 .reveal-delay-2 { transition-delay: .2s; }
@@ -1302,13 +979,20 @@ footer {
 
 <!-- ═══ HEADER ═══ -->
 <header id="site-header">
+
+  <!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  LOGO AZIENDA                                                ║
+  ║                                                              ║
+  ║  Il file "Logo Double Ex Home.png" deve stare nella          ║
+  ║  STESSA CARTELLA di questo file index.html.                  ║
+  ║                                                              ║
+  ║  Se hai rinominato il logo, cambia solo il testo dentro      ║
+  ║  src="..." nella riga qui sotto.                             ║
+  ╚══════════════════════════════════════════════════════════════╝
+  -->
   <a href="#" class="logo-area">
-    <img src="Logo Double Ex Home.png" class="logo-img" alt="Doubleex Home">
-    <div style="width:42px;height:42px;border:1px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.7rem;letter-spacing:.1em;flex-shrink:0;">DH</div>
-    <div class="logo-text">
-      <span>DoubleexHome</span>
-      <span data-it="Residenze di Lusso" data-en="Luxury Residences">Residenze di Lusso</span>
-    </div>
+    <img src="Logo Double Ex Home.png" class="logo-img" alt="DoubleexHome">
   </a>
 
   <div class="header-center">
@@ -1324,9 +1008,36 @@ footer {
   </div>
 </header>
 
+
 <!-- ═══ HERO ═══ -->
 <section class="hero">
+
+  <!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  📸  FOTO HERO — LO SFONDO A TUTTO SCHERMO                  ║
+  ║                                                              ║
+  ║  Questa è l'immagine grande che appare appena si apre il     ║
+  ║  sito, dietro al titolo principale.                          ║
+  ║                                                              ║
+  ║  COME INSERIRLA:                                             ║
+  ║  1. Copia il file immagine nella stessa cartella del sito    ║
+  ║  2. Nel file CSS qui sopra, trova ".hero-bg {"               ║
+  ║  3. Cambia la riga "background:" con questa:                 ║
+  ║                                                              ║
+  ║     background-image:                                        ║
+  ║       linear-gradient(160deg,                                ║
+  ║         rgba(13,11,9,0.55) 0%,                               ║
+  ║         rgba(13,11,9,0.2)  50%,                              ║
+  ║         rgba(13,11,9,0.75) 100%),                            ║
+  ║       url("QUI-IL-NOME-DEL-FILE.jpg");                       ║
+  ║     background-size: cover;                                  ║
+  ║     background-position: center;                             ║
+  ║                                                              ║
+  ║  Esempio: url("esterno.jpg")                                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+  -->
   <div class="hero-bg"></div>
+
   <div class="hero-grain"></div>
   <div class="hero-content">
     <div class="hero-eyebrow" data-it="Roma Eterna · Fontana di Trevi" data-en="Eternal Rome · Trevi Fountain">Roma Eterna · Fontana di Trevi</div>
@@ -1346,6 +1057,7 @@ footer {
   </div>
 </section>
 
+
 <!-- ═══ PHOTO SECTION ═══ -->
 <section class="photos-section" id="photos">
   <div class="section-header reveal">
@@ -1356,44 +1068,85 @@ footer {
   </div>
 
   <div class="photos-grid">
-    <!-- FOTO 1 (grande) — sostituisci src con il percorso reale -->
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  📸  FOTO 1 — GRANDE (colonna sinistra, alta)               ║
+    ║                                                              ║
+    ║  Cambia  src=""  con il nome del tuo file.                   ║
+    ║  Esempio:  src="soggiorno.jpg"                               ║
+    ║                                                              ║
+    ║  Il file foto deve stare nella stessa cartella               ║
+    ║  di questo index.html.                                       ║
+    ╚══════════════════════════════════════════════════════════════╝
+    -->
     <div class="photo-card reveal" onclick="openLightbox(this.querySelector('img'))">
-      <img src="" alt="Appartamento Fontana di Trevi - Soggiorno"
+      <img src=""
+           alt="Appartamento Fontana di Trevi - Soggiorno"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-      <div class="photo-placeholder" onclick="event.stopPropagation()">
+      <div class="photo-overlay">
+        <div class="photo-expand"><i class="fas fa-expand-alt"></i> <span data-it="Espandi" data-en="Expand">Espandi</span></div>
+      </div>
+      <div class="photo-placeholder">
         <i class="fas fa-image"></i>
-        <span data-it="Inserisci Foto 1 — Principale" data-en="Add Photo 1 — Main">Inserisci Foto 1 — Principale</span>
-        <span style="font-size:.6rem;color:var(--stone);margin-top:4px;" data-it="es. src=&quot;foto1.jpg&quot;" data-en="e.g. src=&quot;photo1.jpg&quot;">es. src="foto1.jpg"</span>
+        <span data-it="Foto 1 — principale" data-en="Photo 1 — main">Foto 1 — principale</span>
+        <span style="font-size:.6rem;color:var(--stone);margin-top:6px;text-transform:none;letter-spacing:0;">cambia src="" con il nome del file</span>
       </div>
     </div>
+    <!-- fine foto 1 -->
 
-    <!-- FOTO 2 -->
+    <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  📸  FOTO 2 — in alto a destra                              ║
+    ║                                                              ║
+    ║  Cambia  src=""  con il nome del tuo file.                   ║
+    ║  Esempio:  src="camera.jpg"                                  ║
+    ╚══════════════════════════════════════════════════════════════╝
+    -->
     <div class="photo-card reveal reveal-delay-1" onclick="openLightbox(this.querySelector('img'))">
-      <img src="" alt="Appartamento Fontana di Trevi - Camera"
+      <img src=""
+           alt="Appartamento Fontana di Trevi - Camera"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
       <div class="photo-overlay">
         <div class="photo-expand"><i class="fas fa-expand-alt"></i> <span data-it="Espandi" data-en="Expand">Espandi</span></div>
       </div>
-      <div class="photo-placeholder" onclick="event.stopPropagation()">
+      <div class="photo-placeholder">
         <i class="fas fa-image"></i>
-        <span data-it="Inserisci Foto 2" data-en="Add Photo 2">Inserisci Foto 2</span>
+        <span data-it="Foto 2" data-en="Photo 2">Foto 2</span>
+        <span style="font-size:.6rem;color:var(--stone);margin-top:6px;text-transform:none;letter-spacing:0;">cambia src="" con il nome del file</span>
       </div>
     </div>
+    <!-- fine foto 2 -->
 
-    <!-- FOTO 3 (opzionale — rimuovi questo blocco se vuoi solo 2 foto) -->
+    <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  📸  FOTO 3 — in basso a destra (OPZIONALE)                 ║
+    ║                                                              ║
+    ║  Cambia  src=""  con il nome del tuo file.                   ║
+    ║  Esempio:  src="bagno.jpg"                                   ║
+    ║                                                              ║
+    ║  Se vuoi usare SOLO 2 foto, cancella tutto il blocco         ║
+    ║  da questo commento fino a "fine foto 3" più in basso.       ║
+    ╚══════════════════════════════════════════════════════════════╝
+    -->
     <div class="photo-card reveal reveal-delay-2" onclick="openLightbox(this.querySelector('img'))">
-      <img src="" alt="Appartamento Fontana di Trevi - Vista"
+      <img src=""
+           alt="Appartamento Fontana di Trevi - Vista"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
       <div class="photo-overlay">
         <div class="photo-expand"><i class="fas fa-expand-alt"></i> <span data-it="Espandi" data-en="Expand">Espandi</span></div>
       </div>
-      <div class="photo-placeholder" onclick="event.stopPropagation()">
+      <div class="photo-placeholder">
         <i class="fas fa-image"></i>
-        <span data-it="Inserisci Foto 3 (opzionale)" data-en="Add Photo 3 (optional)">Inserisci Foto 3 (opzionale)</span>
+        <span data-it="Foto 3 (opzionale)" data-en="Photo 3 (optional)">Foto 3 (opzionale)</span>
+        <span style="font-size:.6rem;color:var(--stone);margin-top:6px;text-transform:none;letter-spacing:0;">cambia src="" con il nome del file</span>
       </div>
     </div>
+    <!-- fine foto 3 -->
+
   </div>
 </section>
+
 
 <!-- ═══ FEATURES ═══ -->
 <section class="features-section">
@@ -1436,6 +1189,7 @@ footer {
   </div>
 </section>
 
+
 <!-- ═══ CONTACT ═══ -->
 <section class="contact-section" id="contact">
   <div class="contact-layout">
@@ -1445,11 +1199,8 @@ footer {
         <span data-it="Contattaci" data-en="Contact">Contattaci</span><br>
         <em data-it="direttamente" data-en="directly">direttamente</em>
       </h2>
-
       <div class="contact-divider"></div>
-
       <p class="contact-quote" data-it="Ogni soggiorno è un'esperienza su misura, pensata nei minimi dettagli per renderla indimenticabile." data-en="Every stay is a tailor-made experience, crafted in every detail to make it unforgettable.">Ogni soggiorno è un'esperienza su misura, pensata nei minimi dettagli per renderla indimenticabile.</p>
-
       <div class="contact-address" style="margin-top:36px;">
         <div class="contact-address-item">
           <i class="fas fa-map-marker-alt"></i>
@@ -1470,39 +1221,32 @@ footer {
       </div>
     </div>
 
-    <!-- FORM -->
     <div class="reveal reveal-delay-2">
       <form class="contact-form" id="booking-form" onsubmit="submitForm(event)">
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" data-it="Nome *" data-en="First Name *">Nome *</label>
             <input class="form-input" type="text" name="nome" required
-                   data-placeholder-it="Mario" data-placeholder-en="John"
-                   placeholder="Mario">
+                   data-placeholder-it="Mario" data-placeholder-en="John" placeholder="Mario">
           </div>
           <div class="form-group">
             <label class="form-label" data-it="Cognome *" data-en="Last Name *">Cognome *</label>
             <input class="form-input" type="text" name="cognome" required
-                   data-placeholder-it="Rossi" data-placeholder-en="Smith"
-                   placeholder="Rossi">
+                   data-placeholder-it="Rossi" data-placeholder-en="Smith" placeholder="Rossi">
           </div>
         </div>
-
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" data-it="Email *" data-en="Email *">Email *</label>
             <input class="form-input" type="email" name="email" required
-                   data-placeholder-it="mario@email.com" data-placeholder-en="john@email.com"
-                   placeholder="mario@email.com">
+                   data-placeholder-it="mario@email.com" data-placeholder-en="john@email.com" placeholder="mario@email.com">
           </div>
           <div class="form-group">
             <label class="form-label" data-it="Telefono" data-en="Phone">Telefono</label>
             <input class="form-input" type="tel" name="telefono"
-                   data-placeholder-it="+39 000 000 0000" data-placeholder-en="+1 000 000 0000"
-                   placeholder="+39 000 000 0000">
+                   data-placeholder-it="+39 000 000 0000" data-placeholder-en="+1 000 000 0000" placeholder="+39 000 000 0000">
           </div>
         </div>
-
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" data-it="Data Arrivo *" data-en="Check-in *">Data Arrivo *</label>
@@ -1513,7 +1257,6 @@ footer {
             <input class="form-input" type="date" name="partenza" required>
           </div>
         </div>
-
         <div class="form-group">
           <label class="form-label" data-it="Richieste Speciali" data-en="Special Requests">Richieste Speciali</label>
           <textarea class="form-textarea" name="note"
@@ -1521,16 +1264,13 @@ footer {
                     data-placeholder-en="Special requests, arrival time, number of guests…"
                     placeholder="Richieste particolari, orario di arrivo, numero di ospiti…"></textarea>
         </div>
-
         <div style="font-size:.62rem;color:var(--stone);line-height:1.7;">
           <span data-it="Inviando questo modulo accetti la nostra " data-en="By submitting this form you accept our ">Inviando questo modulo accetti la nostra </span>
           <a onclick="openModal('privacy')" style="color:var(--gold);cursor:pointer;" data-it="Privacy Policy" data-en="Privacy Policy">Privacy Policy</a>.
         </div>
-
         <button type="submit" class="form-submit" id="submit-btn">
           <span id="submit-text" data-it="Invia Richiesta" data-en="Send Request">Invia Richiesta</span>
         </button>
-
         <div class="form-success" id="form-success">
           <i class="fas fa-check-circle" style="color:var(--gold);margin-right:10px;"></i>
           <span data-it="Grazie! La tua richiesta è stata inviata. Ti contatteremo al più presto." data-en="Thank you! Your request has been sent. We will get back to you shortly.">Grazie! La tua richiesta è stata inviata. Ti contatteremo al più presto.</span>
@@ -1539,6 +1279,7 @@ footer {
     </div>
   </div>
 </section>
+
 
 <!-- ═══ FOOTER ═══ -->
 <footer>
@@ -1551,33 +1292,33 @@ footer {
   <div class="footer-right" data-it="© 2026 Doubleex Home · Tutti i diritti riservati" data-en="© 2026 Doubleex Home · All rights reserved">© 2026 Doubleex Home · Tutti i diritti riservati</div>
 </footer>
 
+
 <!-- ═══ FAB BUTTONS ═══ -->
 <div class="fab-cluster">
   <a href="https://wa.me/393891282883" target="_blank" rel="noopener"
      class="fab fab-whatsapp"
-     data-tip-it="Scrivici su WhatsApp" data-tip-en="Chat on WhatsApp"
-     data-tip="Scrivici su WhatsApp">
+     data-tip-it="Scrivici su WhatsApp" data-tip-en="Chat on WhatsApp" data-tip="Scrivici su WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
   <a href="mailto:info@doubleexhome.com"
      class="fab fab-mail"
-     data-tip-it="Invia un'email" data-tip-en="Send an email"
-     data-tip="Invia un'email">
+     data-tip-it="Invia un'email" data-tip-en="Send an email" data-tip="Invia un'email">
     <i class="fas fa-envelope"></i>
   </a>
   <a href="tel:+393891282883"
      class="fab fab-phone"
-     data-tip-it="Chiama ora" data-tip-en="Call now"
-     data-tip="Chiama ora">
+     data-tip-it="Chiama ora" data-tip-en="Call now" data-tip="Chiama ora">
     <i class="fas fa-phone"></i>
   </a>
 </div>
+
 
 <!-- ═══ LIGHTBOX ═══ -->
 <div id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">×</button>
   <img class="lightbox-img" id="lightbox-img" src="" alt="">
 </div>
+
 
 <!-- ═══ GALLERY PAGE ═══ -->
 <div id="gallery-page">
@@ -1589,21 +1330,46 @@ footer {
     </button>
   </div>
 
+  <!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  📸  GALLERY COMPLETA — tutte le foto aggiuntive            ║
+  ║                                                              ║
+  ║  Qui puoi aggiungere quante foto vuoi per la galleria.       ║
+  ║  Per ogni foto, copia e incolla questo blocco:               ║
+  ║                                                              ║
+  ║  <div class="gallery-item"                                   ║
+  ║       onclick="openLightbox(this.querySelector('img'))">     ║
+  ║    <img src="NOME-FOTO.jpg" alt="Descrizione breve">         ║
+  ║  </div>                                                      ║
+  ║                                                              ║
+  ║  Esempio con 3 foto:                                         ║
+  ║                                                              ║
+  ║  <div class="gallery-item"                                   ║
+  ║       onclick="openLightbox(this.querySelector('img'))">     ║
+  ║    <img src="cucina.jpg" alt="Cucina">                       ║
+  ║  </div>                                                      ║
+  ║  <div class="gallery-item"                                   ║
+  ║       onclick="openLightbox(this.querySelector('img'))">     ║
+  ║    <img src="terrazzo.jpg" alt="Terrazzo">                   ║
+  ║  </div>                                                      ║
+  ║  <div class="gallery-item"                                   ║
+  ║       onclick="openLightbox(this.querySelector('img'))">     ║
+  ║    <img src="trevi-notte.jpg" alt="Vista Fontana di Trevi">  ║
+  ║  </div>                                                      ║
+  ╚══════════════════════════════════════════════════════════════╝
+  -->
   <div class="gallery-masonry" id="gallery-masonry">
-    <!--
-      Aggiungi qui le immagini della gallery in questo formato:
-      <div class="gallery-item" onclick="openLightbox(this.querySelector('img'))">
-        <img src="gallery/foto1.jpg" alt="...">
-      </div>
-      ...
-    -->
+
+    <!-- INCOLLA QUI I TUOI BLOCCHI FOTO (vedi istruzioni sopra) -->
+
   </div>
 
   <div class="gallery-upload-area">
     <i class="fas fa-images"></i>
-    <p data-it="Aggiungi le foto della gallery inserendo i tag &lt;img&gt; nel div #gallery-masonry" data-en="Add gallery photos by inserting &lt;img&gt; tags in the #gallery-masonry div">Aggiungi le foto inserendo i tag &lt;img&gt;<br>nel div <code style="color:var(--gold)">#gallery-masonry</code></p>
+    <p>Aggiungi le foto incollando i blocchi &lt;div class="gallery-item"&gt;<br>nel div <code style="color:var(--gold)">#gallery-masonry</code> qui sopra</p>
   </div>
 </div>
+
 
 <!-- ═══ MODAL ═══ -->
 <div id="modal-overlay" onclick="handleOverlayClick(event)">
@@ -1619,6 +1385,7 @@ footer {
     </div>
   </div>
 </div>
+
 
 <!-- ═══ COOKIE BANNER ═══ -->
 <div id="cookie-bar">
@@ -1638,17 +1405,10 @@ footer {
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════ -->
+
 <script>
-/* ─── GOOGLE APPS SCRIPT URL ─────────────────────────────
-   Incolla qui l'URL del tuo script pubblicato come Web App:
-   Es: https://script.google.com/macros/s/AKfycb.../exec
-   ──────────────────────────────────────────────────────── */
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyXyRaytD80tUOmBxup8X4RXt7WQW2rZJ7K6E6wJdyzK_NqSRBhJkXgdtpcl9U8QhFzA/exec';
 
-/* ─── CONTENUTI MODALI BILINGUE ─────────────────────────── */
 const MODAL_CONTENT = {
   privacy: {
     icon: '<i class="fas fa-lock"></i>',
@@ -1659,13 +1419,13 @@ const MODAL_CONTENT = {
         <h4>Titolare del trattamento</h4>
         <p>Doubleex Home LTD — <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a> — +39 389 128 2883</p>
         <h4>Dati raccolti</h4>
-        <p>Raccogliamo esclusivamente i dati che ci fornisci volontariamente tramite il form di contatto: nome, cognome, indirizzo email, numero di telefono, date di soggiorno e eventuali richieste speciali. Tali dati vengono registrati su un foglio Google Sheets protetto accessibile solo al titolare.</p>
+        <p>Raccogliamo esclusivamente i dati che ci fornisci volontariamente tramite il form di contatto: nome, cognome, indirizzo email, numero di telefono, date di soggiorno e eventuali richieste speciali.</p>
         <h4>Finalità del trattamento</h4>
-        <p>I dati raccolti sono utilizzati esclusivamente per rispondere alle richieste di prenotazione e per finalità di comunicazione correlate. Non vengono ceduti a terzi né usati per finalità di marketing senza previo consenso esplicito.</p>
+        <p>I dati raccolti sono utilizzati esclusivamente per rispondere alle richieste di prenotazione. Non vengono ceduti a terzi né usati per finalità di marketing senza previo consenso esplicito.</p>
         <h4>Conservazione</h4>
-        <p>I dati vengono conservati per il tempo strettamente necessario a gestire la richiesta e comunque non oltre 24 mesi dalla raccolta.</p>
+        <p>I dati vengono conservati per il tempo strettamente necessario e comunque non oltre 24 mesi dalla raccolta.</p>
         <h4>Diritti dell'interessato</h4>
-        <p>Hai il diritto di accedere, rettificare, cancellare i tuoi dati e di revocare il consenso in qualsiasi momento scrivendo a <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a>.</p>
+        <p>Hai il diritto di accedere, rettificare, cancellare i tuoi dati scrivendo a <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a>.</p>
       `
     },
     en: {
@@ -1675,13 +1435,13 @@ const MODAL_CONTENT = {
         <h4>Data Controller</h4>
         <p>Doubleex Home LTD — <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a> — +39 389 128 2883</p>
         <h4>Data collected</h4>
-        <p>We collect only the data you voluntarily provide via the contact form: name, surname, email address, phone number, stay dates and any special requests. This data is recorded in a protected Google Sheets spreadsheet accessible only to the owner.</p>
+        <p>We collect only the data you voluntarily provide via the contact form: name, surname, email address, phone number, stay dates and any special requests.</p>
         <h4>Purpose of processing</h4>
-        <p>The data collected is used exclusively to respond to booking requests and for related communication purposes. It is not shared with third parties or used for marketing purposes without prior explicit consent.</p>
+        <p>The data collected is used exclusively to respond to booking requests. It is not shared with third parties or used for marketing purposes without prior explicit consent.</p>
         <h4>Retention</h4>
-        <p>Data is retained for the time strictly necessary to manage the request and in any case no longer than 24 months from collection.</p>
+        <p>Data is retained for the time strictly necessary and in any case no longer than 24 months from collection.</p>
         <h4>Rights</h4>
-        <p>You have the right to access, rectify, erase your data and withdraw consent at any time by writing to <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a>.</p>
+        <p>You have the right to access, rectify, erase your data by writing to <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a>.</p>
       `
     }
   },
@@ -1690,29 +1450,29 @@ const MODAL_CONTENT = {
     it: {
       title: 'Cookie Policy',
       body: `
-        <p>Questo sito utilizza cookie tecnici necessari al funzionamento e, previo tuo consenso esplicito, cookie analitici per comprendere come gli utenti interagiscono con il sito.</p>
+        <p>Questo sito utilizza cookie tecnici necessari al funzionamento e, previo tuo consenso esplicito, cookie analitici.</p>
         <h4>Cookie tecnici (sempre attivi)</h4>
-        <p>Sono essenziali per il corretto funzionamento del sito e non richiedono il tuo consenso. Tra questi rientrano i cookie che memorizzano le preferenze di lingua e le scelte sui cookie stessi.</p>
+        <p>Essenziali per il corretto funzionamento del sito. Memorizzano le preferenze di lingua e le scelte sui cookie.</p>
         <h4>Cookie analitici (previo consenso)</h4>
-        <p>Usiamo strumenti di analisi anonimi per comprendere i flussi di navigazione e migliorare l'esperienza. Nessun dato personale identificativo viene trasmesso a terzi.</p>
+        <p>Strumenti di analisi anonimi per comprendere i flussi di navigazione. Nessun dato personale viene trasmesso a terzi.</p>
         <h4>Cookie di terze parti</h4>
         <p>Il sito non utilizza cookie di profilazione né cookie pubblicitari di terze parti.</p>
         <h4>Gestione</h4>
-        <p>Puoi modificare le tue preferenze in qualsiasi momento tramite le impostazioni del browser o contattandoci a <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a>.</p>
+        <p>Puoi modificare le tue preferenze tramite le impostazioni del browser o scrivendo a <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a>.</p>
       `
     },
     en: {
       title: 'Cookie Policy',
       body: `
-        <p>This site uses technical cookies necessary for its operation and, with your explicit consent, analytical cookies to understand how users interact with the site.</p>
+        <p>This site uses technical cookies necessary for its operation and, with your explicit consent, analytical cookies.</p>
         <h4>Technical cookies (always active)</h4>
-        <p>These are essential for the site to function correctly and do not require your consent. These include cookies that store language preferences and cookie choices.</p>
+        <p>Essential for the site to function correctly. These include cookies that store language preferences.</p>
         <h4>Analytical cookies (with consent)</h4>
-        <p>We use anonymous analytics tools to understand navigation flows and improve the experience. No personally identifiable data is transmitted to third parties.</p>
+        <p>Anonymous analytics tools to understand navigation flows. No personally identifiable data is transmitted to third parties.</p>
         <h4>Third-party cookies</h4>
         <p>The site does not use profiling or third-party advertising cookies.</p>
         <h4>Management</h4>
-        <p>You can change your preferences at any time through your browser settings or by contacting us at <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a>.</p>
+        <p>You can change your preferences through your browser settings or by contacting <a href="mailto:info@doubleexhome.com">info@doubleexhome.com</a>.</p>
       `
     }
   },
@@ -1721,35 +1481,34 @@ const MODAL_CONTENT = {
     it: {
       title: 'Termini di Utilizzo',
       body: `
-        <p>L'accesso e l'utilizzo di questo sito web sono soggetti ai presenti Termini di Utilizzo. Continuando la navigazione accetti integralmente le condizioni sotto riportate.</p>
+        <p>L'accesso e l'utilizzo di questo sito sono soggetti ai presenti Termini di Utilizzo.</p>
         <h4>Proprietà intellettuale</h4>
-        <p>Tutti i contenuti presenti su questo sito — testi, immagini, loghi, grafica e codice — sono di proprietà esclusiva di Doubleex Home LTD e sono protetti dalla normativa italiana e internazionale sul diritto d'autore.</p>
+        <p>Tutti i contenuti — testi, immagini, loghi, grafica e codice — sono di proprietà esclusiva di Doubleex Home LTD e protetti dalla normativa sul diritto d'autore.</p>
         <h4>Limitazione di responsabilità</h4>
-        <p>Doubleex Home LTD non si assume alcuna responsabilità per eventuali errori od omissioni nei contenuti del sito, né per i danni diretti o indiretti derivanti dall'uso delle informazioni ivi contenute.</p>
+        <p>Doubleex Home LTD non si assume responsabilità per errori nei contenuti né per danni derivanti dall'uso delle informazioni ivi contenute.</p>
         <h4>Disponibilità e prenotazioni</h4>
-        <p>La compilazione del form di contatto non costituisce contratto vincolante. La prenotazione si intende confermata solo dopo ricezione di conferma scritta da parte di Doubleex Home LTD.</p>
+        <p>La compilazione del form non costituisce contratto vincolante. La prenotazione è confermata solo dopo ricezione di conferma scritta da parte di Doubleex Home LTD.</p>
         <h4>Legge applicabile</h4>
-        <p>Il presente sito e ogni controversia ad esso relativa sono soggetti alla legge italiana. È competente il foro di Roma.</p>
+        <p>Il sito è soggetto alla legge italiana. È competente il foro di Roma.</p>
       `
     },
     en: {
       title: 'Terms of Use',
       body: `
-        <p>Access to and use of this website are subject to these Terms of Use. By continuing to browse you fully accept the conditions set out below.</p>
+        <p>Access to and use of this website are subject to these Terms of Use.</p>
         <h4>Intellectual property</h4>
-        <p>All content on this site — texts, images, logos, graphics and code — is the exclusive property of Doubleex Home LTD and is protected by Italian and international copyright law.</p>
+        <p>All content — texts, images, logos, graphics and code — is the exclusive property of Doubleex Home LTD and protected by copyright law.</p>
         <h4>Limitation of liability</h4>
-        <p>Doubleex Home LTD assumes no liability for any errors or omissions in the site's content, nor for direct or indirect damages arising from the use of the information contained therein.</p>
+        <p>Doubleex Home LTD assumes no liability for any errors in the site's content or for damages arising from the use of information contained therein.</p>
         <h4>Availability and bookings</h4>
-        <p>Completing the contact form does not constitute a binding contract. A booking is considered confirmed only after receipt of written confirmation from Doubleex Home LTD.</p>
+        <p>Completing the contact form does not constitute a binding contract. A booking is confirmed only after receipt of written confirmation from Doubleex Home LTD.</p>
         <h4>Applicable law</h4>
-        <p>This site and any disputes relating to it are governed by Italian law. The court of Rome has jurisdiction.</p>
+        <p>This site is governed by Italian law. The court of Rome has jurisdiction.</p>
       `
     }
   }
 };
 
-/* ─── LINGUA ─────────────────────────────────────────────── */
 let currentLang = localStorage.getItem('trevi_lang') || 'it';
 
 function setLang(lang) {
@@ -1760,56 +1519,38 @@ function setLang(lang) {
   document.getElementById('btn-it').classList.toggle('active', lang === 'it');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
 
-  // Testo con data-it / data-en
   document.querySelectorAll('[data-it]').forEach(el => {
     const txt = el.getAttribute('data-' + lang);
     if (txt) {
-      // Gestisci html (es. <em>)
       if (txt.includes('<')) el.innerHTML = txt;
       else el.textContent = txt;
     }
   });
 
-  // Placeholder input
   document.querySelectorAll('[data-placeholder-' + lang + ']').forEach(el => {
     el.placeholder = el.getAttribute('data-placeholder-' + lang);
   });
 
-  // Tooltip FAB
   document.querySelectorAll('[data-tip-' + lang + ']').forEach(el => {
     el.setAttribute('data-tip', el.getAttribute('data-tip-' + lang));
   });
 
-  // Pulsante chiudi modal
   const closeBtn = document.querySelector('.modal-close-btn');
   if (closeBtn) closeBtn.textContent = lang === 'it' ? 'Chiudi' : 'Close';
-
-  // Pulsante gallery page
-  document.querySelectorAll('[data-it]').forEach(el => {
-    if (el.getAttribute('data-' + lang)) {
-      if (el.innerHTML.includes('<') && el.getAttribute('data-' + lang).includes('<')) {
-        el.innerHTML = el.getAttribute('data-' + lang);
-      }
-    }
-  });
 }
 
-// Init lingua
 setLang(currentLang);
 
-/* ─── HEADER SCROLL ──────────────────────────────────────── */
 window.addEventListener('scroll', () => {
   document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
 
-/* ─── SCROLL REVEAL ──────────────────────────────────────── */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-/* ─── LIGHTBOX ───────────────────────────────────────────── */
 function openLightbox(imgEl) {
   if (!imgEl || !imgEl.src || !imgEl.complete || imgEl.naturalWidth === 0) return;
   document.getElementById('lightbox-img').src = imgEl.src;
@@ -1823,7 +1564,6 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
-/* ─── GALLERY PAGE ───────────────────────────────────────── */
 function openGallery() {
   document.getElementById('gallery-page').style.display = 'block';
   document.body.style.overflow = 'hidden';
@@ -1834,20 +1574,15 @@ function closeGallery() {
   document.body.style.overflow = '';
 }
 
-/* ─── MODAL ──────────────────────────────────────────────── */
 function openModal(type) {
   const data = MODAL_CONTENT[type];
   if (!data) return;
-  const lang = currentLang;
-  const content = data[lang];
-
+  const content = data[currentLang];
   document.getElementById('modal-icon-el').innerHTML = data.icon;
   document.getElementById('modal-title-el').textContent = content.title;
   document.getElementById('modal-body-el').innerHTML = content.body;
-
   const closeBtn = document.querySelector('.modal-close-btn');
-  closeBtn.textContent = lang === 'it' ? 'Chiudi' : 'Close';
-
+  closeBtn.textContent = currentLang === 'it' ? 'Chiudi' : 'Close';
   document.getElementById('modal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1862,22 +1597,11 @@ function handleOverlayClick(e) {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeModal();
-    closeLightbox();
-  }
+  if (e.key === 'Escape') { closeModal(); closeLightbox(); }
 });
 
-/* ─── COOKIE ─────────────────────────────────────────────── */
-function acceptCookies() {
-  localStorage.setItem('trevi_cookies', 'accepted');
-  hideCookieBar();
-}
-
-function rejectCookies() {
-  localStorage.setItem('trevi_cookies', 'rejected');
-  hideCookieBar();
-}
+function acceptCookies() { localStorage.setItem('trevi_cookies', 'accepted'); hideCookieBar(); }
+function rejectCookies()  { localStorage.setItem('trevi_cookies', 'rejected'); hideCookieBar(); }
 
 function hideCookieBar() {
   const bar = document.getElementById('cookie-bar');
@@ -1890,13 +1614,10 @@ function hideCookieBar() {
 document.addEventListener('DOMContentLoaded', () => {
   const status = localStorage.getItem('trevi_cookies');
   if (status !== 'accepted' && status !== 'rejected') {
-    setTimeout(() => {
-      document.getElementById('cookie-bar').style.display = 'flex';
-    }, 900);
+    setTimeout(() => { document.getElementById('cookie-bar').style.display = 'flex'; }, 900);
   }
 });
 
-/* ─── FORM SUBMIT ────────────────────────────────────────── */
 function submitForm(e) {
   e.preventDefault();
   const form = e.target;
@@ -1904,12 +1625,10 @@ function submitForm(e) {
   const txt = document.getElementById('submit-text');
   const success = document.getElementById('form-success');
 
-  // Loading state
   btn.classList.add('loading');
   txt.textContent = currentLang === 'it' ? 'Invio in corso…' : 'Sending…';
 
-  const data = new FormData(form);
-  const params = new URLSearchParams(data);
+  const params = new URLSearchParams(new FormData(form));
 
   fetch(GOOGLE_SCRIPT_URL, {
     method: 'POST',
@@ -1926,7 +1645,6 @@ function submitForm(e) {
       : 'Thank you! Your request has been sent. We will get back to you shortly.';
   })
   .catch(() => {
-    // Fallback: tenta con no-cors (Google Apps Script richiede questo in alcuni casi)
     fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
